@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A calculator (this time in Vue!)</title>
+    <link rel="stylesheet" href="calculator_styles.css" />
+    <link rel="icon" href="public/richard_watterson_calculator.png" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <div id="app">
+        <section class="calculator" aria-label="Calculator">
+          <header class="calculator-header">
+            <div>
+              <h2>
+                Yet another calculator I made, but this time in Vue.js to mix
+                things up!
+              </h2>
+              <p class="eyebrow">so yeah, pretty good game, 8/10 would play again</p>
+            </div>
+          </header>
+
+          <div class="display" role="status" aria-live="polite">
+            <span class="expression"
+              >{{ stack.length ? stack.join(' ') : 'Ready' }}</span
+            >
+            <strong class="display-value">{{ display }}</strong>
+          </div>
+          <p v-if="error" class="error">{{ error }}</p>
+
+          <div class="actions">
+            <button class="utility" type="button" @click="clear">AC</button>
+            <button class="utility" type="button" @click="backspace">
+              DEL
+            </button>
+          </div>
+
+          <div class="buttonArea">
+            <button
+              v-for="button in buttonCreation()"
+              :key="button"
+              :class="{
+                            operator: ['+', '-', '*', '/'].includes(button),
+                            equals: button === '=',
+                            decimal: button === '.'
+                        }"
+              type="button"
+              :aria-label="button === '*' ? 'Multiply' : button === '/' ? 'Divide' : String(button)"
+              @click="buttonPress(button)"
+            >
+              {{ button === '*' ? '×' : button === '/' ? '÷' : button }}
+            </button>
+          </div>
+        </section>
+        <div
+          v-if="videoModalStart !== null"
+          class="video-modal"
+          @click.self="closeVideoModal"
+        >
+          <section
+            class="video-modal-player"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Video player"
+          >
+            <button
+              class="video-modal-close"
+              type="button"
+              aria-label="Close video"
+              @click="closeVideoModal"
+            >
+              ×
+            </button>
+            <iframe
+              id="video-player"
+              :src="videoModalUrl"
+              title="Video player"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
