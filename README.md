@@ -1,4 +1,5 @@
 # One More Calculator
+<sub>(This one features two little easter eggs, try diving by zero and typing out "troll" _wink wink_)</sub>
 
 This project was made as a submission to the following challenge proposed by Professor Gustavo Ferreira Palma:
 
